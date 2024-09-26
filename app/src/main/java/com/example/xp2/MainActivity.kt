@@ -80,25 +80,13 @@ fun JogadorItem(jogadorNumero: Int) {
         Spacer(modifier = Modifier.height(4.dp))
 
         // Controle do poder
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Button(onClick = { poder = (poder - 1).coerceAtLeast(-100) }) {
-                Text(text = "-")
-            }
-            Text(text = "Poder: $poder")
-            Button(onClick = { poder += 1 }) {
-                Text(text = "+")
-            }
-        }
+        PoderControl(poder) { newPoder -> poder = newPoder }
 
         Spacer(modifier = Modifier.height(4.dp))
 
         BônusControl(bonus) { newBonus -> bonus = newBonus }
 
-        Spacer(modifier = Modifier.height(4.dp)) // Reduzido
+        Spacer(modifier = Modifier.height(4.dp))
 
         ModificadorControl(modificadores) { newModificador -> modificadores = newModificador }
     }
@@ -116,6 +104,23 @@ fun LevelControl(level: Int, onLevelChange: (Int) -> Unit) {
         }
         Text(text = "Level: $level")
         Button(onClick = { onLevelChange((level + 1).coerceAtMost(10)) }) {
+            Text(text = "+")
+        }
+    }
+}
+
+@Composable
+fun PoderControl(poder: Int, onPoderChange: (Int) -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Button(onClick = { onPoderChange((poder - 1).coerceAtLeast(-100)) }) {
+            Text(text = "-")
+        }
+        Text(text = "Poder: $poder")
+        Button(onClick = { onPoderChange(poder + 1) }) {
             Text(text = "+")
         }
     }
